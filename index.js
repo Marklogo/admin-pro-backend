@@ -9,16 +9,13 @@ const {dbConection} = require('./database/config')
 const app= express();
 
 app.use(cors());
+app.use(express.json());
 
 dbConection();
 
 //rutas
-app.get('/', (req, res) => {
-    res.json({
-        ok: true,
-        msg: 'Hola mundo'
-    });
-});
+app.use ('/api/usuarios', require('./routes/usuarios'));
+app.use ('/api/login', require('./routes/auth'));
 
 
 app.listen(process.env.PORT,()=>{
