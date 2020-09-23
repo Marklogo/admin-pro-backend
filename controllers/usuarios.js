@@ -5,7 +5,6 @@ const Usuario = require("../models/usuario");
 
 const getUsuarios = async (req, res) => {
   const desde = Number(req.query.desde) || 0;
-  console.log(desde);
 
   const [usuarios, total] = await Promise.all([
     Usuario
@@ -15,7 +14,7 @@ const getUsuarios = async (req, res) => {
     Usuario.countDocuments()
   ]);
 
-  res.json({
+  return res.json({
     ok: true,
     usuarios,
     total,
@@ -44,14 +43,14 @@ const crearUsuario = async (req, res = response) => {
     await usuario.save();
         // Generar token
     const token =  await generarJWT(usuario.id);
-    res.json({
+    return res.json({
       ok: true,
       usuario,
       token
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "Error inesperado... revisar logs",
     });
@@ -95,7 +94,7 @@ const actualizarUsuario = async (req, res = response) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "Error inesperado... revisar logs",
     });
@@ -119,7 +118,7 @@ const borrarUsuario = async (req, res = response) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "Error inesperado... revisar logs",
     });

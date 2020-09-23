@@ -27,13 +27,13 @@ const login = async (req, res = response) => {
     // Generar token
     const token = await generarJWT(usuarioDB.id);
 
-    res.json({
+    return res.json({
       ok: true,
       token,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "Hable con el administrador",
     });
@@ -78,7 +78,18 @@ const googleSignIn = async (req, res = response) => {
   }
 };
 
+const renewToken = async (req, res) => {
+  const uid = req.uid;
+  const token = await generarJWT(uid);
+  return res.json({
+    ok:true,
+    token
+  });
+
+}
+
 module.exports = {
   login,
   googleSignIn,
+  renewToken
 };

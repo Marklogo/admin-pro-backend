@@ -13,7 +13,7 @@ const getTodo =  async (req, res) => {
      Usuario.find({ nombre: regex })
   ])
 
-  res.json({
+  return res.json({
     ok: true,
     usuarios,
     medicos,
@@ -52,7 +52,7 @@ const getDocCollecion =  async (req, res) => {
 
   }
 
-  res.json({
+  return res.json({
     ok: true,
     resultados: data
   });

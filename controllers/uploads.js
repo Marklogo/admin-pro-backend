@@ -53,7 +53,7 @@ const fileUpload =  async (req, res) => {
       //Actualizar Imagen
       actualizarImagen(tipo, id, nombreArchivo);
 
-    res.json({
+    return res.json({
       ok: true,
       msg: 'Se ha subido la imagen'
     });

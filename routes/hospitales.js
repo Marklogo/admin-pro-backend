@@ -1,25 +1,38 @@
-const { Router } = require('express');
-const { check } = require('express-validator')
-const {validarCampos} = require('../middelwares/validar-campos')
-const { getHospitales, crearHospital, actualizarHospital, borrarHospital } = require('../controllers/hospitales')
-const {validarJwt} = require('../middelwares/validar-jwt');
+const { Router } = require("express");
+const { check } = require("express-validator");
+const { validarCampos } = require("../middelwares/validar-campos");
+const {
+  getHospitales,
+  crearHospital,
+  actualizarHospital,
+  borrarHospital,
+} = require("../controllers/hospitales");
+const { validarJwt } = require("../middelwares/validar-jwt");
 
 const router = Router();
 
-router.get('/',[
+router.get("/", [validarJwt], getHospitales);
+
+router.post(
+  "/",
+  [
     validarJwt,
-], getHospitales);
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    validarCampos,
+  ],
+  crearHospital
+);
 
-router.post('/',[
+router.put(
+  "/:id",
+  [
     validarJwt,
-    check('nombre','El nombre es obligatorio').not().isEmpty(),
-    validarCampos
-], crearHospital);
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    validarCampos,
+  ],
+  actualizarHospital
+);
 
-router.put('/:id',[
-], actualizarHospital);
-
-router.delete('/:id',[
-], borrarHospital);
+router.delete("/:id", [validarJwt], borrarHospital);
 
 module.exports = router;
